@@ -188,7 +188,7 @@ table.s-items{width:100%;border-collapse:collapse;font-variant-numeric:tabular-n
       <div class="list" id="list"></div>
     </section>
 
-    <details class="card" id="cfgcard">
+    <details class="card" id="cfgcard" hidden>
       <summary>2 · Datos de la empresa en el comprobante</summary>
       <form class="form" id="cfg" autocomplete="off">
         <div class="logobox">
@@ -245,6 +245,7 @@ table.s-items{width:100%;border-collapse:collapse;font-variant-numeric:tabular-n
 <div class="pdfhost" id="pdfhost" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
+<script src="marca.js"></script>
 <script src="logo.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -255,10 +256,10 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
 /* ---------- Configuración de marca ---------- */
-const DEFAULTS = {"nombre": "", "eslogan": "La Casa del Motociclista", "direcciones": "TIENDA 2: AV. LA VICTORIA 268, A ESPALDA DEL PLAZA VEA\nTIENDA 3: AV. MARISCAL CÁCERES 509, A UNA CUADRA DEL PARQUE MAGDALENA\nTALLER: JR. AMÉRICO ORÉ 145", "telefonos": "948 507711", "whatsapp": "989 005 413 / 941 052 030", "email": "", "redes": "", "pie": "", "gracias": "Estamos listos para servirle. ¡Gracias por su compra!", "color1": "#ed3237", "color2": "#1c2127", "logo": (window.MARCA_LOGO || "")};
+const DEFAULTS = Object.assign({nombre:"", eslogan:"", direcciones:"", telefonos:"", whatsapp:"", email:"", redes:"", pie:"", gracias:"", color1:"#ed3237", color2:"#1c2127"}, window.MARCA || {}, {logo: window.MARCA_LOGO || ""});
 let cfg = Object.assign({}, DEFAULTS);
 const LS_KEY = "malhuayza-comprobantes-cfg-v2";
-try { const s = localStorage.getItem(LS_KEY); if (s) cfg = Object.assign({}, DEFAULTS, JSON.parse(s)); } catch(e){}
+try { localStorage.removeItem(LS_KEY); } catch(e){}
 
 const FIELDS = ["nombre","eslogan","direcciones","telefonos","whatsapp","email","redes","pie","gracias","color1","color2"];
 function fillForm(){
