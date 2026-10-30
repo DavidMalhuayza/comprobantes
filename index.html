@@ -4,667 +4,78 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
-</head>
-<body>
-<title>Comprobantes Malhuayza</title>
+<title>Herramientas Malhuayza Motors</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
-/* Layout: herramienta de dos zonas — panel de trabajo a la izquierda (carga, lista, datos de marca) y mesa de vista previa A4 a la derecha. */
+/* Portada: foto de la fachada a todo lo ancho, título de marca y tarjetas de herramientas que suben sobre la foto. */
 :root{
-  --bg:#ECEEF1; --panel:#FFFFFF; --fg:#1B1F24; --muted:#5B6570; --line:#D5DAE0;
-  --accent:#B3121E; --accent-fg:#FFFFFF; --stage:#D9DEE3; --soft:#F5F6F8; --ok:#1E7A46;
+  --bg:#EEF0F3; --panel:#FFFFFF; --fg:#16191D; --muted:#5B6570; --line:#D9DDE2;
+  --red:#E3141D; --red-ink:#B70F17; --night:#0E1013;
   --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --f-body:"IBM Plex Sans","Segoe UI",Roboto,Arial,sans-serif;
-  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#111417; --panel:#191D21; --fg:#E6E9ED; --muted:#99A2AC; --line:#2B3137;
-  --accent:#E2444E; --accent-fg:#FFFFFF; --stage:#0B0D0F; --soft:#20252A; --ok:#4CC27F; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#111417; --panel:#191D21; --fg:#E6E9ED; --muted:#99A2AC; --line:#2B3137;
-  --accent:#E2444E; --accent-fg:#FFFFFF; --stage:#0B0D0F; --soft:#20252A; --ok:#4CC27F; color-scheme:dark}
-
+@media (prefers-color-scheme:dark){:root{--bg:#0F1114;--panel:#181B1F;--fg:#E7E9EC;--muted:#9AA3AD;--line:#2A2F35;--red-ink:#FF5A60;color-scheme:dark}}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.45}
-.app{display:grid;grid-template-columns:360px minmax(0,1fr);gap:16px;max-width:1500px;margin:0 auto;
-  padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-@media (max-width:900px){.app{grid-template-columns:minmax(0,1fr)}}
-
-.side{display:flex;flex-direction:column;gap:14px;min-width:0}
-.brandbar{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
-.brandbar h1{font-family:var(--f-display);font-weight:700;font-size:28px;letter-spacing:.01em;margin:0;text-wrap:balance;line-height:1}
-.brandbar h1 span{color:var(--accent)}
-.brandbar small{color:var(--muted);font-size:12px}
-
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0}
-.label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 8px}
-
-.drop{border:2px dashed var(--line);border-radius:10px;padding:18px 14px;text-align:center;cursor:pointer;background:var(--soft);transition:border-color .15s,background .15s}
-.drop:hover,.drop.over{border-color:var(--accent)}
-.drop strong{display:block;font-size:15px;margin-bottom:2px}
-.drop p{margin:0;color:var(--muted);font-size:12.5px}
-.drop:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-
-.list{display:flex;flex-direction:column;gap:6px;margin-top:12px}
-.item{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:var(--panel);text-align:left;color:var(--fg);font:inherit;width:100%}
-.item[aria-current="true"]{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
-.item:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.chip{font-family:var(--f-display);font-weight:700;font-size:14px;width:30px;height:30px;border-radius:6px;display:grid;place-items:center;background:var(--soft);color:var(--fg);border:1px solid var(--line)}
-.chip.f{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
-.item .meta{min-width:0}
-.item .meta b{display:block;font-family:var(--f-mono);font-weight:500;font-size:13px}
-.item .meta span{display:block;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.item .amt{font-family:var(--f-mono);font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
-.pill{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;padding:2px 6px;border-radius:99px;background:var(--soft);color:var(--muted);border:1px solid var(--line)}
-.x{border:0;background:none;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;padding:2px 4px;border-radius:4px}
-.x:hover{color:var(--accent)}
-
-details.card summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;font-weight:600}
-details.card summary::-webkit-details-marker{display:none}
-details.card summary::after{content:"+";font-size:18px;color:var(--muted)}
-details.card[open] summary::after{content:"–"}
-.form{display:flex;flex-direction:column;gap:10px;margin-top:12px}
-.form label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:500}
-.form input[type=text],.form textarea{font:inherit;font-size:13.5px;color:var(--fg);background:var(--soft);border:1px solid var(--line);border-radius:7px;padding:8px 9px;width:100%}
-.form textarea{resize:vertical;min-height:58px}
-.form input:focus,.form textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.colors{display:flex;gap:14px}
-.colors label{flex-direction:row;align-items:center;gap:8px}
-.colors input{width:38px;height:30px;border:1px solid var(--line);border-radius:6px;padding:2px;background:var(--soft)}
-.logobox{display:flex;align-items:center;gap:10px}
-.logoprev{width:84px;height:52px;border:1px dashed var(--line);border-radius:6px;display:grid;place-items:center;background:#fff;overflow:hidden;color:#8a929b;font-size:11px}
-.logoprev img{max-width:100%;max-height:100%}
-.hint{font-size:11.5px;color:var(--muted);margin:0}
-
-.btn{font:inherit;font-weight:600;font-size:13.5px;border-radius:8px;padding:9px 14px;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--fg)}
-.btn:hover{border-color:var(--muted)}
-.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
-.btn.primary:hover{filter:brightness(1.07)}
-.btn:disabled{opacity:.5;cursor:not-allowed;filter:none}
-.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.btnrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-
-.main{display:flex;flex-direction:column;gap:12px;min-width:0}
-.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
-.toolbar .t b{font-family:var(--f-display);font-size:20px;font-weight:700;letter-spacing:.01em}
-.toolbar .t span{display:block;color:var(--muted);font-size:12px}
-.stage{background:var(--stage);border-radius:10px;padding:20px;min-width:0;overflow:hidden}
-.scaler{transform-origin:top left;margin:0 auto}
-.note{font-size:12px;color:var(--muted)}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:9px 14px;border-radius:8px;font-size:13px;z-index:20;max-width:calc(100% - 32px)}
-.legal{font-size:12px;color:var(--muted);line-height:1.5}
-.legal b{color:var(--fg)}
-
-/* ======= HOJA A4 (papel: colores fijos, no dependen del tema) ======= */
-.sheet{--c1:#B3121E;--c2:#1C2127;width:794px;min-height:1118px;background:#fff;color:#1d2228;font-family:var(--f-body);font-size:11.5px;line-height:1.4;
-  display:flex;flex-direction:column;box-shadow:0 2px 14px rgba(0,0,0,.18);position:relative}
-.pdfhost .sheet{box-shadow:none}
-.s-strip{height:8px;background:var(--c1)}
-.s-in{padding:26px 34px 0;display:flex;flex-direction:column;gap:16px;flex:1}
-.s-head{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:22px;align-items:start}
-.s-brand{display:flex;flex-direction:column;gap:10px;align-items:flex-start;min-width:0}
-.s-logo{display:block;align-self:center;max-width:300px;max-height:120px;width:auto;height:auto;object-fit:contain}
-.s-name{font-family:var(--f-display);font-weight:700;font-size:31px;line-height:.95;color:var(--c2);letter-spacing:.01em;margin:0}
-.s-slogan{color:var(--c1);font-weight:600;font-size:11px;letter-spacing:.04em;margin:3px 0 7px;text-transform:uppercase}
-.s-emisor{color:#3d454e;font-size:10.5px;line-height:1.45}
-.s-emisor b{color:#1d2228}
-.s-box{border:2px solid var(--c1);border-radius:10px;overflow:hidden;text-align:center}
-.s-box .ruc{font-family:var(--f-display);font-weight:700;font-size:20px;padding:9px 6px 7px;color:var(--c2);letter-spacing:.03em}
-.s-box .tipo{background:var(--c1);color:#fff;font-family:var(--f-display);font-weight:700;font-size:17px;line-height:1.08;padding:7px 10px;letter-spacing:.04em}
-.s-box .num{font-family:var(--f-mono);font-weight:500;font-size:17px;padding:8px 6px;color:var(--c2)}
-
-.s-client{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);border:1px solid #d9dde2;border-radius:8px;overflow:hidden}
-.s-client > div{padding:10px 14px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-content:start}
-.s-client > div + div{border-left:1px solid #d9dde2;background:#f6f7f9}
-.s-k{color:#68727c;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;padding-top:1px;white-space:nowrap}
-.s-v{font-weight:500;min-width:0;overflow-wrap:anywhere}
-.s-v.strong{font-weight:700;font-size:12.5px}
-.s-ref{border-left:4px solid var(--c1);background:#fbf3f4;padding:8px 12px;border-radius:0 6px 6px 0}
-
-table.s-items{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-.s-items th{background:var(--c2);color:#fff;font-weight:600;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;padding:7px 8px;text-align:left}
-.s-items th:first-child{border-radius:6px 0 0 0}.s-items th:last-child{border-radius:0 6px 0 0}
-.s-items td{padding:8px 8px;border-bottom:1px solid #e3e6ea;vertical-align:top}
-.s-items tbody tr:nth-child(even) td{background:#f7f8fa}
-.s-items .n{text-align:right;white-space:nowrap;font-family:var(--f-mono);font-size:11px}
-.s-items .c{text-align:center;white-space:nowrap}
-.s-desc{font-weight:600;overflow-wrap:anywhere}
-.s-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 16px;margin-top:5px;font-size:10.5px}
-.s-specs div{display:flex;gap:6px;min-width:0}
-.s-specs span{color:#68727c;font-size:9px;letter-spacing:.06em;text-transform:uppercase;min-width:52px;padding-top:1px}
-.s-specs b{font-family:var(--f-mono);font-weight:500;overflow-wrap:anywhere;min-width:0}
-.s-free{display:inline-block;font-size:9px;color:var(--c1);border:1px solid var(--c1);border-radius:4px;padding:0 4px;margin-left:6px;font-weight:600}
-
-.s-bottom{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:22px;align-items:start}
-.s-son{font-weight:600;padding:8px 12px;background:#f6f7f9;border-radius:6px;border:1px solid #e3e6ea}
-.s-obs{margin-top:8px;color:#3d454e}
-.s-cuotas{margin-top:8px;border-collapse:collapse;font-size:10.5px}
-.s-cuotas td,.s-cuotas th{padding:3px 10px 3px 0;text-align:left}
-.s-cuotas th{color:#68727c;font-size:9px;text-transform:uppercase;letter-spacing:.06em}
-.s-verif{display:flex;gap:14px;align-items:center;margin-top:12px}
-.s-verif img{width:92px;height:92px;flex:none;image-rendering:pixelated}
-.s-verif .lg{font-size:9.5px;color:#4a525b;line-height:1.45}
-.s-verif .hash{font-family:var(--f-mono);font-size:9.5px;color:#1d2228;overflow-wrap:anywhere}
-.s-totals{border:1px solid #d9dde2;border-radius:8px;overflow:hidden;font-variant-numeric:tabular-nums}
-.s-totals .r{display:flex;justify-content:space-between;gap:10px;padding:5px 12px}
-.s-totals .r span{color:#4a525b}
-.s-totals .r b{font-family:var(--f-mono);font-weight:500}
-.s-totals .r + .r{border-top:1px solid #eceef1}
-.s-totals .tot{background:var(--c1);color:#fff;padding:9px 12px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.s-totals .tot span,.s-totals .tot b{white-space:nowrap}
-.s-totals .tot span{font-family:var(--f-display);font-weight:700;font-size:15px;letter-spacing:.04em}
-.s-totals .tot b{font-family:var(--f-mono);font-weight:500;font-size:15px}
-
-.s-grow{flex:1}
-.s-pie{font-size:10.5px;color:#3d454e;white-space:pre-line;border-top:1px dashed #cfd4da;padding-top:10px}
-.s-thanks{font-family:var(--f-display);font-weight:600;font-size:15px;color:var(--c2);letter-spacing:.02em;text-align:center}
-.s-foot{margin-top:16px;background:var(--c2);color:#e9ecef;padding:10px 34px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:10px}
-.s-foot b{color:#fff}
-.s-ex{position:absolute;top:340px;left:0;right:0;text-align:center;font-family:var(--f-display);font-weight:700;font-size:120px;color:rgba(179,18,30,.07);transform:rotate(-24deg);pointer-events:none;letter-spacing:.08em}
-
-.pdfhost{position:fixed;left:0;top:0;width:794px;background:#fff;z-index:-5;pointer-events:none}
-.pdfhost:empty{display:none}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.hero{position:relative;background:var(--night) 75% 40%/cover no-repeat;color:#fff;min-height:440px;display:flex}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,11,14,.96) 0%,rgba(10,11,14,.9) 42%,rgba(10,11,14,.45) 72%,rgba(10,11,14,.2) 100%),linear-gradient(0deg,rgba(10,11,14,.85) 0%,rgba(10,11,14,0) 45%)}
+.hero-in{position:relative;width:100%;max-width:1180px;margin:0 auto;padding:36px 20px 120px;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.hero img.logo{width:min(320px,80%);height:auto;display:block;filter:drop-shadow(0 6px 18px rgba(0,0,0,.45))}
+.kicker{font-family:var(--f-display);font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:14px;color:#FF6B70;margin:6px 0 0}
+h1{font-family:var(--f-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:clamp(38px,6vw,64px);line-height:.95;margin:0;letter-spacing:.01em;text-wrap:balance;max-width:12ch}
+h1 span{display:block}
+h1 span{color:var(--red);text-shadow:0 2px 14px rgba(0,0,0,.5)}
+.lead{max-width:46ch;color:#D3D7DC;margin:0;font-size:16px}
+.tools{position:relative;max-width:1180px;margin:-84px auto 0;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.tool{display:flex;flex-direction:column;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;text-decoration:none;color:inherit;box-shadow:0 10px 30px rgba(10,11,14,.14);transition:transform .15s,box-shadow .15s}
+.tool:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(10,11,14,.2)}
+.tool:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.ic{width:46px;height:46px;border-radius:10px;background:var(--red);color:#fff;display:grid;place-items:center}
+.ic svg{width:26px;height:26px}
+.tool h2{font-family:var(--f-display);font-weight:700;font-size:26px;margin:0;line-height:1}
+.tool p{margin:0;color:var(--muted);font-size:14px}
+.go{margin-top:auto;font-weight:600;color:var(--red-ink);font-size:14px}
+.foot{max-width:1180px;margin:44px auto 0;padding:22px 20px 32px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:18px 40px;font-size:13.5px;color:var(--muted)}
+.foot b{display:block;color:var(--fg);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+@media (max-width:600px){.hero{min-height:380px}.hero-in{padding:28px 16px 110px}.tools{padding:0 16px}.foot{padding-left:16px;padding-right:16px}}
+@media (prefers-reduced-motion:reduce){.tool{transition:none}}
 </style>
-
-<div class="app">
-  <aside class="side">
-    <div class="brandbar">
-      <h1>Comprobantes <span>Malhuayza</span></h1>
-      <small>XML SUNAT → PDF</small>
-    </div>
-
-    <section class="card" aria-labelledby="lbl-carga">
-      <p class="label" id="lbl-carga">1 · Cargar XML</p>
-      <div class="drop" id="drop" tabindex="0" role="button" aria-label="Seleccionar archivos XML">
-        <strong>Arrastra aquí los XML</strong>
-        <p>o toca para elegirlos · boletas, facturas y notas emitidas en SUNAT SOL</p>
-      </div>
-      <input type="file" id="file" accept=".xml,text/xml,application/xml" multiple hidden>
-      <div class="list" id="list"></div>
-    </section>
-
-    <details class="card" id="cfgcard" hidden>
-      <summary>2 · Datos de la empresa en el comprobante</summary>
-      <form class="form" id="cfg" autocomplete="off">
-        <div class="logobox">
-          <div class="logoprev" id="logoprev">Sin logo</div>
-          <div class="btnrow">
-            <button type="button" class="btn" id="logobtn">Subir logo</button>
-            <button type="button" class="btn" id="logodel">Quitar</button>
-          </div>
-          <input type="file" id="logofile" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden>
-        </div>
-        <p class="hint">Los datos ya vienen cargados. Cambios aquí solo se guardan en este navegador.</p>
-        <label>Nombre comercial (déjalo vacío para no mostrarlo)<input type="text" id="c-nombre"></label>
-        <label>Eslogan / rubro<input type="text" id="c-eslogan"></label>
-        <label>Otras direcciones o sucursales (una por línea)<textarea id="c-direcciones" placeholder="Tienda 2: Av. ... – Huamanga"></textarea></label>
-        <p class="hint">La dirección fiscal se toma siempre del XML.</p>
-        <div class="row2">
-          <label>Teléfono(s)<input type="text" id="c-telefonos" placeholder="066 000000"></label>
-          <label>WhatsApp<input type="text" id="c-whatsapp" placeholder="9xx xxx xxx"></label>
-        </div>
-        <div class="row2">
-          <label>Correo<input type="text" id="c-email" placeholder="ventas@..."></label>
-          <label>Redes / web<input type="text" id="c-redes" placeholder="fb.com/malhuayzamotors"></label>
-        </div>
-        <label>Texto al pie (cuentas bancarias, garantía, condiciones)<textarea id="c-pie" placeholder="BCP Soles: 000-0000000-0-00&#10;Garantía según manual del fabricante."></textarea></label>
-        <label>Mensaje final<input type="text" id="c-gracias"></label>
-        <div class="colors">
-          <label><input type="color" id="c-color1">Color principal</label>
-          <label><input type="color" id="c-color2">Color oscuro</label>
-        </div>
-        <div class="btnrow">
-          <button type="submit" class="btn primary" id="savecfg">Guardar datos</button>
-          <span class="note" id="cfgstate"></span>
-        </div>
-      </form>
-    </details>
-
-    <section class="card legal">
-      <p class="label">Antes de entregarlo</p>
-      Este formato reordena los datos del XML firmado por SUNAT; <b>no modifica montos, ítems ni datos del cliente</b>. Incluye RUC, tipo y número, fecha, totales, IGV, monto en letras, valor resumen (hash) y código QR. Valida el formato con tu contador antes de usarlo con clientes.
-    </section>
-  </aside>
-
-  <main class="main">
-    <div class="toolbar">
-      <div class="t"><b id="tb-title">—</b><span id="tb-sub"></span></div>
-      <div class="btnrow">
-        <span class="note" id="dlnote"></span>
-        <button class="btn primary" id="dl" disabled>Descargar PDF</button>
-      </div>
-    </div>
-    <div class="stage" id="stage"><div class="scaler" id="scaler"></div></div>
-  </main>
-</div>
-<div class="pdfhost" id="pdfhost" aria-hidden="true"></div>
-<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
-
-<script src="marca.js"></script>
+</head>
+<body data-tool="inicio">
 <script src="logo.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="marca.js"></script>
+<script src="comun/menu.js"></script>
+
+<header class="hero mm-photo">
+  <div class="hero-in">
+    <img class="logo" id="logo" alt="Malhuayza Motors" hidden>
+    <p class="kicker">La casa del motociclista · Huamanga</p>
+    <h1>Herramientas <span>de la tienda</span></h1>
+    <p class="lead">Elige lo que necesitas hacer. Todo funciona desde el navegador, en la PC o en el celular.</p>
+  </div>
+</header>
+
+<main class="tools" id="tools"></main>
+
+<footer class="foot" id="foot"></footer>
+
 <script>
 (function(){
-"use strict";
-const $ = id => document.getElementById(id);
-const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-
-/* ---------- Configuración de marca ---------- */
-const DEFAULTS = Object.assign({nombre:"", eslogan:"", direcciones:"", telefonos:"", whatsapp:"", email:"", redes:"", pie:"", gracias:"", color1:"#ed3237", color2:"#1c2127"}, window.MARCA || {}, {logo: window.MARCA_LOGO || ""});
-let cfg = Object.assign({}, DEFAULTS);
-const LS_KEY = "malhuayza-comprobantes-cfg-v2";
-try { localStorage.removeItem(LS_KEY); } catch(e){}
-
-const FIELDS = ["nombre","eslogan","direcciones","telefonos","whatsapp","email","redes","pie","gracias","color1","color2"];
-function fillForm(){
-  FIELDS.forEach(k => { const el = $("c-"+k); if (el) el.value = cfg[k] || ""; });
-  $("logoprev").innerHTML = cfg.logo ? `<img src="${cfg.logo}" alt="Logo">` : "Sin logo";
-}
-function readForm(){ FIELDS.forEach(k => { const el = $("c-"+k); if (el) cfg[k] = el.value; }); }
-fillForm();
-
-async function saveCfg(){
-  readForm();
-  try { localStorage.setItem(LS_KEY, JSON.stringify(cfg)); } catch(e){}
-  $("cfgstate").textContent = "Guardado en este navegador";
-  setTimeout(()=>{ $("cfgstate").textContent=""; }, 3000);
-}
-$("cfg").addEventListener("submit", e => { e.preventDefault(); saveCfg(); });
-$("cfg").addEventListener("input", () => { readForm(); render(); });
-
-$("logobtn").onclick = () => $("logofile").click();
-$("logodel").onclick = () => { cfg.logo = ""; fillForm(); render(); };
-$("logofile").onchange = e => {
-  const f = e.target.files[0]; if (!f) return;
-  const rd = new FileReader();
-  rd.onload = () => {
-    const img = new Image();
-    img.onload = () => {
-      let maxW = 640, maxH = 320, out = "";
-      for (let i=0;i<4;i++){
-        const r = Math.min(1, maxW/img.width, maxH/img.height);
-        const cv = document.createElement("canvas");
-        cv.width = Math.max(1, Math.round(img.width*r)); cv.height = Math.max(1, Math.round(img.height*r));
-        cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
-        out = cv.toDataURL("image/png");
-        if (out.length > 190000) { const w = cv.toDataURL("image/webp", 0.92); if (w.startsWith("data:image/webp") && w.length < out.length) out = w; }
-        if (out.length <= 190000) break;
-        maxW *= .7; maxH *= .7;
-      }
-      cfg.logo = out; fillForm(); render(); toast("Logo cargado. Pulsa «Guardar datos» para conservarlo.");
-    };
-    img.src = rd.result;
-  };
-  rd.readAsDataURL(f);
-  e.target.value = "";
-};
-
-/* ---------- Lectura del XML UBL 2.1 (SUNAT) ---------- */
-const ch = (el, n) => { if (!el) return null; for (const c of el.children) if (c.localName === n) return c; return null; };
-const path = (el, p) => p.split("/").reduce((e, n) => ch(e, n), el);
-const all = (el, n) => el ? [...el.children].filter(c => c.localName === n) : [];
-const tx = el => el ? el.textContent.replace(/\s+/g," ").trim() : "";
-const num = el => { const v = parseFloat(tx(el)); return isNaN(v) ? 0 : v; };
-
-const TIPOS = {"01":"FACTURA ELECTRÓNICA","03":"BOLETA DE VENTA ELECTRÓNICA","07":"NOTA DE CRÉDITO ELECTRÓNICA","08":"NOTA DE DÉBITO ELECTRÓNICA"};
-const CORTO = {"01":"Factura","03":"Boleta","07":"Nota de crédito","08":"Nota de débito"};
-const DOCID = {"0":"DOC.","1":"DNI","4":"CARNÉ EXT.","6":"RUC","7":"PASAPORTE","A":"CÉD. DIPL.","-":"DOC."};
-const UM = {NIU:"UND",C62:"UND",ZZ:"SERV",KGM:"KG",LTR:"LT",GLL:"GAL",MTR:"M",BX:"CAJA",PK:"PQT",SET:"JGO",PR:"PAR",DZN:"DOC",BG:"BOLSA",BO:"BOT",KT:"KIT"};
-const MON = {PEN:"S/",USD:"US$",EUR:"€"};
-
-function decodeXml(buf){
-  const head = new TextDecoder("latin1").decode(new Uint8Array(buf.slice(0, 200)));
-  const m = head.match(/encoding=["']([\w-]+)["']/i);
-  let enc = m ? m[1].toLowerCase() : "utf-8";
-  try { return new TextDecoder(enc).decode(buf); } catch(e){ return new TextDecoder("utf-8").decode(buf); }
-}
-
-function parseCpe(text, fileName){
-  const doc = new DOMParser().parseFromString(text, "application/xml");
-  if (doc.getElementsByTagName("parsererror").length) throw new Error("no es un XML válido");
-  const root = doc.documentElement;
-  const kind = root.localName;
-  if (!["Invoice","CreditNote","DebitNote"].includes(kind)) throw new Error("no parece un comprobante de SUNAT");
-  const tipo = kind === "Invoice" ? tx(ch(root,"InvoiceTypeCode")) : (kind === "CreditNote" ? "07" : "08");
-  const id = tx(ch(root,"ID")); const [serie, numero] = id.split("-");
-  const notes = all(root,"Note");
-  const letras = tx(notes.find(n => n.getAttribute("languageLocaleID") === "1000"));
-  const obs = notes.filter(n => n.getAttribute("languageLocaleID") !== "1000").map(tx).filter(Boolean);
-
-  const sp = path(root,"AccountingSupplierParty/Party");
-  const sAddr = path(sp,"PartyLegalEntity/RegistrationAddress");
-  const ubic = [tx(ch(sAddr,"District")), tx(ch(sAddr,"CityName")), tx(ch(sAddr,"CountrySubentity"))].filter(v => v && v !== "-");
-  const emisor = {
-    ruc: tx(path(sp,"PartyIdentification/ID")),
-    comercial: tx(path(sp,"PartyName/Name")),
-    razon: tx(path(sp,"PartyLegalEntity/RegistrationName")),
-    direccion: [tx(path(sAddr,"AddressLine/Line")), ubic.join(" - ")].filter(Boolean).join(", ")
-  };
-  const cp = path(root,"AccountingCustomerParty/Party");
-  const cId = path(cp,"PartyIdentification/ID");
-  const cAddr = path(cp,"PartyLegalEntity/RegistrationAddress");
-  const cliente = {
-    doc: tx(cId), docTipo: cId ? (cId.getAttribute("schemeID") || "") : "",
-    nombre: tx(path(cp,"PartyLegalEntity/RegistrationName")),
-    direccion: tx(path(cAddr,"AddressLine/Line"))
-  };
-
-  let forma = "", cuotas = [];
-  all(root,"PaymentTerms").forEach(pt => {
-    const pm = tx(ch(pt,"PaymentMeansID"));
-    if (/^contado$/i.test(pm) || /^credito$/i.test(pm)) forma = /^contado$/i.test(pm) ? "Contado" : "Crédito";
-    else if (/^cuota/i.test(pm)) cuotas.push({n: pm.replace(/\D/g,"").replace(/^0+/,""), monto: num(ch(pt,"Amount")), fecha: tx(ch(pt,"PaymentDueDate"))});
-  });
-
-  const tot = {gravada:0, igv:0, exonerada:0, inafecta:0, gratuita:0, exportacion:0, isc:0, icbper:0, otros:0};
-  all(ch(root,"TaxTotal"),"TaxSubtotal").forEach(ts => {
-    const code = tx(path(ts,"TaxCategory/TaxScheme/ID"));
-    const base = num(ch(ts,"TaxableAmount")), imp = num(ch(ts,"TaxAmount"));
-    if (code === "1000" || code === "1016") { tot.gravada += base; tot.igv += imp; }
-    else if (code === "9997") tot.exonerada += base;
-    else if (code === "9998") tot.inafecta += base;
-    else if (code === "9996") tot.gratuita += base;
-    else if (code === "9995") tot.exportacion += base;
-    else if (code === "2000") tot.isc += imp;
-    else if (code === "7152") tot.icbper += imp;
-    else if (code === "9999") tot.otros += imp;
-  });
-  const lmt = ch(root,"LegalMonetaryTotal") || ch(root,"RequestedMonetaryTotal");
-  tot.descuentos = num(ch(lmt,"AllowanceTotalAmount"));
-  tot.cargos = num(ch(lmt,"ChargeTotalAmount"));
-  tot.anticipos = num(ch(lmt,"PrepaidAmount"));
-  tot.total = num(ch(lmt,"PayableAmount"));
-  if (!tot.igv) tot.igv = num(ch(ch(root,"TaxTotal"),"TaxAmount")) - tot.isc - tot.icbper - tot.otros;
-
-  const lineTag = {Invoice:"InvoiceLine", CreditNote:"CreditNoteLine", DebitNote:"DebitNoteLine"}[kind];
-  const qtyTag = {Invoice:"InvoicedQuantity", CreditNote:"CreditedQuantity", DebitNote:"DebitedQuantity"}[kind];
-  const lineas = all(root, lineTag).map(l => {
-    const q = ch(l, qtyTag);
-    const cant = num(q);
-    const valorVenta = num(ch(l,"LineExtensionAmount"));
-    const impLinea = num(path(l,"TaxTotal/TaxAmount"));
-    let precio = 0, referencial = 0;
-    all(ch(l,"PricingReference"),"AlternativeConditionPrice").forEach(ap => {
-      const t = tx(ch(ap,"PriceTypeCode"));
-      if (t === "01") precio = num(ch(ap,"PriceAmount")); else if (t === "02") referencial = num(ch(ap,"PriceAmount"));
-    });
-    const gratis = tx(ch(l,"FreeOfChargeIndicator")) === "true" || (!!referencial && !precio);
-    const importe = gratis ? 0 : valorVenta + impLinea;
-    return {
-      cant, um: q ? (q.getAttribute("unitCode") || "") : "",
-      codigo: tx(path(l,"Item/SellersItemIdentification/ID")),
-      desc: all(ch(l,"Item"),"Description").map(tx).join(" "),
-      valorUnit: num(path(l,"Price/PriceAmount")),
-      precioUnit: gratis ? referencial : (precio || (cant ? importe/cant : 0)),
-      importe, gratis
-    };
-  });
-
-  const ref = tx(path(root,"BillingReference/InvoiceDocumentReference/ID"));
-  const motivo = tx(path(root,"DiscrepancyResponse/Description"));
-  const dig = doc.getElementsByTagNameNS("*","DigestValue")[0];
-
-  return {
-    fileName, tipo, nombreTipo: TIPOS[tipo] || "COMPROBANTE ELECTRÓNICO", corto: CORTO[tipo] || "Comprobante",
-    id, serie: serie || id, numero: numero || "",
-    fecha: tx(ch(root,"IssueDate")), hora: tx(ch(root,"IssueTime")).replace(/(\.\d+)?Z?$/,""),
-    vence: tx(ch(root,"DueDate")),
-    moneda: tx(ch(root,"DocumentCurrencyCode")) || "PEN",
-    letras, obs, emisor, cliente, forma, cuotas, tot, lineas, ref, motivo,
-    hash: tx(dig)
-  };
-}
-
-/* ---------- Presentación ---------- */
-const money = n => (Number(n)||0).toLocaleString("es-PE",{minimumFractionDigits:2,maximumFractionDigits:2});
-const qty = n => (Number(n)||0).toLocaleString("es-PE",{minimumFractionDigits:0,maximumFractionDigits:3});
-const fdate = s => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s||""); return m ? `${m[3]}/${m[2]}/${m[1]}` : (s||""); };
-
-const SPEC_KEYS = "MARCA|MODELO|CHASIS|VIN|N° DE SERIE|SERIE|MOTOR|COLOR|AÑO DE FABRICACIÓN|AÑO MODELO|AÑO|CILINDRADA|DUA|PLACA|CARROCERÍA|CATEGORÍA";
-function descHtml(d){
-  const re = new RegExp("\\b(" + SPEC_KEYS + ")\\s*:\\s*", "gi");
-  const hits = [...d.matchAll(re)];
-  if (hits.length < 2) return `<div class="s-desc">${esc(d)}</div>`;
-  const title = d.slice(0, hits[0].index).trim();
-  const specs = hits.map((h, i) => [h[1].toUpperCase(), d.slice(h.index + h[0].length, i+1 < hits.length ? hits[i+1].index : d.length).trim()]);
-  return `<div class="s-desc">${esc(title || specs[0][1])}</div><div class="s-specs">${specs.map(([k,v]) => `<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join("")}</div>`;
-}
-
-function qrDataUrl(c){
-  if (typeof qrcode !== "function") return "";
-  const s = [c.emisor.ruc, c.tipo, c.serie, c.numero, c.tot.igv.toFixed(2), c.tot.total.toFixed(2), c.fecha, c.cliente.docTipo, c.cliente.doc, c.hash].join("|") + "|";
-  const qr = qrcode(0, "M"); qr.addData(s); qr.make();
-  const n = qr.getModuleCount(), cell = 6, m = 2, size = (n + m*2) * cell;
-  const cv = document.createElement("canvas"); cv.width = cv.height = size;
-  const g = cv.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0,0,size,size); g.fillStyle = "#111";
-  for (let r=0;r<n;r++) for (let k=0;k<n;k++) if (qr.isDark(r,k)) g.fillRect((k+m)*cell,(r+m)*cell,cell,cell);
-  return cv.toDataURL("image/png");
-}
-
-function sheetHtml(c, ejemplo){
-  const sym = MON[c.moneda] || c.moneda;
-  const t = c.tot;
-  const contactos = [
-    cfg.telefonos && `<b>Tel.</b> ${esc(cfg.telefonos)}`,
-    cfg.whatsapp && `<b>WhatsApp</b> ${esc(cfg.whatsapp)}`,
-    cfg.email && esc(cfg.email)
-  ].filter(Boolean).join(" &nbsp;·&nbsp; ");
-  const extraDir = (cfg.direcciones||"").split("\n").map(s=>s.trim()).filter(Boolean);
-  const nombre = cfg.nombre || c.emisor.comercial || c.emisor.razon;
-
-  const rows = [
-    ["Op. gravada", t.gravada], ["Op. exonerada", t.exonerada], ["Op. inafecta", t.inafecta],
-    ["Op. exportación", t.exportacion], ["Op. gratuita", t.gratuita], ["Descuentos", t.descuentos],
-    ["ISC", t.isc], ["IGV 18%", t.igv], ["ICBPER", t.icbper], ["Otros cargos", t.cargos + t.otros], ["Anticipos", t.anticipos]
-  ].filter(([k,v]) => v || k === "Op. gravada" || k === "IGV 18%");
-
-  const docLbl = DOCID[c.cliente.docTipo] || "DOC.";
-  const leyenda = `Representación impresa de la ${c.nombreTipo.toLowerCase().replace(/^./, s => s.toUpperCase())}, emitida en SUNAT Operaciones en Línea (SEE – SOL). Consulte su validez en www.sunat.gob.pe.`;
-
-  return `<div class="sheet" style="--c1:${esc(cfg.color1||DEFAULTS.color1)};--c2:${esc(cfg.color2||DEFAULTS.color2)}">
-  ${ejemplo ? `<div class="s-ex">EJEMPLO</div>` : ""}
-  <div class="s-strip"></div>
-  <div class="s-in">
-    <div class="s-head">
-      <div class="s-brand">
-        ${cfg.logo ? `<img class="s-logo" src="${cfg.logo}" alt="">` : ""}
-        <div style="min-width:0">
-          ${cfg.nombre ? `<p class="s-name">${esc(cfg.nombre)}</p>` : ""}
-          ${cfg.eslogan ? `<p class="s-slogan">${esc(cfg.eslogan)}</p>` : `<div style="height:6px"></div>`}
-          <div class="s-emisor">
-            <b>${esc(c.emisor.razon)}</b><br>
-            ${esc(c.emisor.direccion)}<br>
-            ${extraDir.map(d => esc(d) + "<br>").join("")}
-            ${contactos ? contactos + "<br>" : ""}
-            ${cfg.redes ? esc(cfg.redes) : ""}
-          </div>
-        </div>
-      </div>
-      <div class="s-box">
-        <div class="ruc">R.U.C. ${esc(c.emisor.ruc)}</div>
-        <div class="tipo">${esc(c.nombreTipo)}</div>
-        <div class="num">${esc(c.serie)} – ${esc(c.numero)}</div>
-      </div>
-    </div>
-
-    <div class="s-client">
-      <div>
-        <span class="s-k">${c.tipo === "01" ? "Señor(es)" : "Cliente"}</span><span class="s-v strong">${esc(c.cliente.nombre || "—")}</span>
-        <span class="s-k">${esc(docLbl)}</span><span class="s-v">${esc(c.cliente.doc || "—")}</span>
-        ${c.cliente.direccion ? `<span class="s-k">Dirección</span><span class="s-v">${esc(c.cliente.direccion)}</span>` : ""}
-      </div>
-      <div>
-        <span class="s-k">Emisión</span><span class="s-v">${esc(fdate(c.fecha))}${c.hora ? " · " + esc(c.hora) : ""}</span>
-        ${c.vence ? `<span class="s-k">Vencimiento</span><span class="s-v">${esc(fdate(c.vence))}</span>` : ""}
-        <span class="s-k">Moneda</span><span class="s-v">${c.moneda === "PEN" ? "SOLES" : esc(c.moneda)}</span>
-        ${c.forma ? `<span class="s-k">Forma de pago</span><span class="s-v">${esc(c.forma)}</span>` : ""}
-      </div>
-    </div>
-
-    ${c.ref ? `<div class="s-ref"><b>Documento que modifica:</b> ${esc(c.ref)}${c.motivo ? ` &nbsp;·&nbsp; <b>Motivo:</b> ${esc(c.motivo)}` : ""}</div>` : ""}
-
-    <table class="s-items">
-      <thead><tr><th class="c" style="width:52px">Cant.</th><th class="c" style="width:50px">U.M.</th><th>Descripción</th><th class="n" style="width:88px;text-align:right">V. unit.</th><th class="n" style="width:88px;text-align:right">P. unit.</th><th class="n" style="width:96px;text-align:right">Importe</th></tr></thead>
-      <tbody>
-        ${c.lineas.map(l => `<tr>
-          <td class="c">${qty(l.cant)}</td>
-          <td class="c">${esc(UM[l.um] || l.um)}</td>
-          <td>${l.codigo ? `<div style="color:#68727c;font-size:9.5px;font-family:var(--f-mono)">${esc(l.codigo)}</div>` : ""}${descHtml(l.desc)}${l.gratis ? `<span class="s-free">GRATUITO</span>` : ""}</td>
-          <td class="n">${money(l.valorUnit)}</td>
-          <td class="n">${money(l.precioUnit)}</td>
-          <td class="n">${money(l.importe)}</td>
-        </tr>`).join("")}
-      </tbody>
-    </table>
-
-    <div class="s-bottom">
-      <div>
-        ${c.letras ? `<div class="s-son">${esc(c.letras.replace(/\s+/g," "))}</div>` : ""}
-        ${c.obs.length ? `<div class="s-obs"><b>Observaciones:</b> ${c.obs.map(esc).join(" · ")}</div>` : ""}
-        ${c.cuotas.length ? `<table class="s-cuotas"><tr><th>Cuota</th><th>Vence</th><th>Monto</th></tr>${c.cuotas.map(q => `<tr><td>${esc(q.n)}</td><td>${esc(fdate(q.fecha))}</td><td>${sym} ${money(q.monto)}</td></tr>`).join("")}</table>` : ""}
-        <div class="s-verif">
-          ${qrDataUrl(c) ? `<img src="${qrDataUrl(c)}" alt="Código QR">` : ""}
-          <div class="lg">${esc(leyenda)}${c.hash ? `<br><span>Valor resumen:</span> <span class="hash">${esc(c.hash)}</span>` : ""}</div>
-        </div>
-      </div>
-      <div class="s-totals">
-        ${rows.map(([k,v]) => `<div class="r"><span>${k}</span><b>${sym} ${money(v)}</b></div>`).join("")}
-        <div class="tot"><span>IMPORTE TOTAL</span><b>${sym} ${money(t.total)}</b></div>
-      </div>
-    </div>
-
-    <div class="s-grow"></div>
-    ${(cfg.pie || cfg.gracias) ? `<div class="s-pie">${cfg.gracias ? `<div class="s-thanks">${esc(cfg.gracias)}</div>` : ""}${cfg.pie ? esc(cfg.pie) : ""}</div>` : ""}
-  </div>
-  <div class="s-foot"><span>${cfg.nombre ? `<b>${esc(cfg.nombre)}</b> · ` : ""}<b>${esc(c.emisor.razon)}</b> · RUC ${esc(c.emisor.ruc)}</span><span>${esc(c.serie)}-${esc(c.numero)}</span></div>
-</div>`;
-}
-
-/* ---------- Estado ---------- */
-const SAMPLE = `<?xml version="1.0" encoding="ISO-8859-1"?><Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:DigestValue>EJEMPLOxxxxxxxxxxxxxxxxxxxx=</ds:DigestValue><cbc:ID>EB01-0000</cbc:ID><cbc:IssueDate>2026-10-19</cbc:IssueDate><cbc:IssueTime>10:30:00.0Z</cbc:IssueTime><cbc:InvoiceTypeCode>03</cbc:InvoiceTypeCode><cbc:Note languageLocaleID="1000"><![CDATA[SON: SEIS MIL SEISCIENTOS CINCUENTA Y 00/100 SOLES]]></cbc:Note><cbc:DocumentCurrencyCode>PEN</cbc:DocumentCurrencyCode><cac:AccountingSupplierParty><cac:Party><cac:PartyIdentification><cbc:ID schemeID="6">20534497351</cbc:ID></cac:PartyIdentification><cac:PartyName><cbc:Name>MALHUAYZA MOTORS</cbc:Name></cac:PartyName><cac:PartyLegalEntity><cbc:RegistrationName>INVERSIONES MALHUAYZA E.I.R.L.</cbc:RegistrationName><cac:RegistrationAddress><cbc:CityName>HUAMANGA</cbc:CityName><cbc:CountrySubentity>AYACUCHO</cbc:CountrySubentity><cbc:District>AYACUCHO</cbc:District><cac:AddressLine><cbc:Line>JR. AMERICO ORE 155 A 1 CDRA DE LA SUNAT</cbc:Line></cac:AddressLine></cac:RegistrationAddress></cac:PartyLegalEntity></cac:Party></cac:AccountingSupplierParty><cac:AccountingCustomerParty><cac:Party><cac:PartyIdentification><cbc:ID schemeID="1">00000000</cbc:ID></cac:PartyIdentification><cac:PartyLegalEntity><cbc:RegistrationName>CLIENTE DE EJEMPLO</cbc:RegistrationName></cac:PartyLegalEntity></cac:Party></cac:AccountingCustomerParty><cac:TaxTotal><cbc:TaxAmount>1014.41</cbc:TaxAmount><cac:TaxSubtotal><cbc:TaxableAmount>5635.59</cbc:TaxableAmount><cbc:TaxAmount>1014.41</cbc:TaxAmount><cac:TaxCategory><cac:TaxScheme><cbc:ID>1000</cbc:ID></cac:TaxScheme></cac:TaxCategory></cac:TaxSubtotal></cac:TaxTotal><cac:LegalMonetaryTotal><cbc:LineExtensionAmount>5635.59</cbc:LineExtensionAmount><cbc:AllowanceTotalAmount>0.00</cbc:AllowanceTotalAmount><cbc:ChargeTotalAmount>0.00</cbc:ChargeTotalAmount><cbc:PrepaidAmount>0.00</cbc:PrepaidAmount><cbc:PayableAmount>6650.00</cbc:PayableAmount></cac:LegalMonetaryTotal><cac:InvoiceLine><cbc:ID>1</cbc:ID><cbc:InvoicedQuantity unitCode="NIU">1.00</cbc:InvoicedQuantity><cbc:LineExtensionAmount>5508.4746</cbc:LineExtensionAmount><cac:PricingReference><cac:AlternativeConditionPrice><cbc:PriceAmount>6500.00</cbc:PriceAmount><cbc:PriceTypeCode>01</cbc:PriceTypeCode></cac:AlternativeConditionPrice></cac:PricingReference><cac:TaxTotal><cbc:TaxAmount>991.5254</cbc:TaxAmount></cac:TaxTotal><cac:Item><cbc:Description>MOTOCICLETA MARCA: EJEMPLO MODELO: XR150 CHASIS: LXXXXXXXXXXXXXXXX MOTOR: XXXXXXXXXXXX COLOR: NEGRO AÑO: 2026</cbc:Description></cac:Item><cac:Price><cbc:PriceAmount>5508.4746</cbc:PriceAmount></cac:Price></cac:InvoiceLine><cac:InvoiceLine><cbc:ID>2</cbc:ID><cbc:InvoicedQuantity unitCode="NIU">1.00</cbc:InvoicedQuantity><cbc:LineExtensionAmount>127.1186</cbc:LineExtensionAmount><cac:PricingReference><cac:AlternativeConditionPrice><cbc:PriceAmount>150.00</cbc:PriceAmount><cbc:PriceTypeCode>01</cbc:PriceTypeCode></cac:AlternativeConditionPrice></cac:PricingReference><cac:TaxTotal><cbc:TaxAmount>22.8814</cbc:TaxAmount></cac:TaxTotal><cac:Item><cbc:Description>CASCO INTEGRAL CERTIFICADO</cbc:Description></cac:Item><cac:Price><cbc:PriceAmount>127.1186</cbc:PriceAmount></cac:Price></cac:InvoiceLine></Invoice>`;
-
-let docs = [];
-let current = -1;
-try { docs.push(Object.assign(parseCpe(SAMPLE, "ejemplo.xml"), {ejemplo:true})); current = 0; } catch(e){ console.error(e); }
-
-function renderList(){
-  $("list").innerHTML = docs.map((c, i) => `
-    <button class="item" type="button" data-i="${i}" aria-current="${i===current}">
-      <span class="chip ${c.tipo==="01"?"f":""}">${c.tipo==="01"?"F":c.tipo==="03"?"B":c.tipo==="07"?"NC":"ND"}</span>
-      <span class="meta"><b>${esc(c.id)}</b><span>${esc(c.cliente.nombre || "—")}</span></span>
-      <span class="amt">${c.ejemplo ? `<span class="pill">Ejemplo</span>` : `${MON[c.moneda]||c.moneda} ${money(c.tot.total)}`}</span>
-      <span class="x" role="button" aria-label="Quitar ${esc(c.id)}" data-del="${i}">×</span>
-    </button>`).join("");
-}
-$("list").addEventListener("click", e => {
-  const d = e.target.closest("[data-del]");
-  if (d){ e.stopPropagation(); const i = +d.dataset.del; docs.splice(i,1); if (current >= docs.length) current = docs.length-1; else if (i < current) current--; renderAll(); return; }
-  const it = e.target.closest(".item"); if (it){ current = +it.dataset.i; renderAll(); }
-});
-
-function render(){
-  const c = docs[current];
-  const scaler = $("scaler");
-  if (!c){
-    scaler.innerHTML = `<div style="padding:60px 20px;text-align:center;color:var(--muted)">Carga un XML para ver el comprobante.</div>`;
-    scaler.style.transform = ""; scaler.style.width = ""; scaler.style.height = "";
-    $("tb-title").textContent = "Sin comprobante"; $("tb-sub").textContent = ""; $("dl").disabled = true; return;
-  }
-  scaler.innerHTML = sheetHtml(c, c.ejemplo);
-  $("tb-title").textContent = `${c.corto} ${c.id}`;
-  $("tb-sub").textContent = c.ejemplo ? "Ejemplo con datos ficticios · carga tus XML para reemplazarlo" : `${c.cliente.nombre} · ${fdate(c.fecha)} · ${MON[c.moneda]||c.moneda} ${money(c.tot.total)}`;
-  $("dl").disabled = !canDownload();
-  fit();
-}
-function fit(){
-  const scaler = $("scaler"), sheet = scaler.querySelector(".sheet"); if (!sheet) return;
-  const avail = $("stage").clientWidth - 40;
-  const s = Math.min(1, avail / 794);
-  scaler.style.width = "794px";
-  scaler.style.transform = `scale(${s})`;
-  scaler.style.height = (sheet.offsetHeight * s) + "px";
-  scaler.style.marginBottom = (sheet.offsetHeight * (s - 1)) + "px";
-  scaler.style.marginLeft = s < 1 ? "0" : "auto";
-}
-function renderAll(){ renderList(); render(); }
-window.addEventListener("resize", fit);
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
-
-/* ---------- Carga de archivos ---------- */
-async function addFiles(files){
-  const xmls = [...files].filter(f => /\.xml$/i.test(f.name) || /xml/.test(f.type));
-  if (!xmls.length){ toast("Solo se aceptan archivos .xml"); return; }
-  let ok = 0, errs = [];
-  for (const f of xmls){
-    try {
-      const c = parseCpe(decodeXml(await f.arrayBuffer()), f.name);
-      docs = docs.filter(d => !d.ejemplo && !(d.id === c.id && d.emisor.ruc === c.emisor.ruc));
-      docs.push(c); current = docs.length - 1; ok++;
-    } catch(e){ errs.push(`${f.name}: ${e.message}`); }
-  }
-  renderAll();
-  if (errs.length) toast(`No se pudo leer ${errs.join("; ")}`);
-  else toast(ok === 1 ? "Comprobante cargado" : `${ok} comprobantes cargados`);
-}
-const drop = $("drop");
-drop.onclick = () => $("file").click();
-drop.onkeydown = e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); $("file").click(); } };
-$("file").onchange = e => { addFiles(e.target.files); e.target.value = ""; };
-["dragenter","dragover"].forEach(ev => document.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
-["dragleave","drop"].forEach(ev => document.addEventListener(ev, e => { e.preventDefault(); if (ev === "drop" || !e.relatedTarget) drop.classList.remove("over"); }));
-document.addEventListener("drop", e => { if (e.dataTransfer?.files?.length) addFiles(e.dataTransfer.files); });
-
-/* ---------- PDF ---------- */
-let downloads = null;
-const inClaude = !!window.claude;
-const canDownload = () => !!downloads || !inClaude;
-function safeName(s){ return String(s).replace(/[\\/:*?"<>|]+/g," ").replace(/\s+/g," ").trim().slice(0,120); }
-$("dl").onclick = async () => {
-  const c = docs[current]; if (!c || !canDownload()) return;
-  const btn = $("dl"); btn.disabled = true; btn.textContent = "Generando…";
-  const host = $("pdfhost");
-  try {
-    host.innerHTML = sheetHtml(c, c.ejemplo);
-    if (document.fonts && document.fonts.ready) await document.fonts.ready;
-    const worker = html2pdf().set({
-      margin: 0,
-      image: {type:"jpeg", quality:0.96},
-      html2canvas: {scale:2, backgroundColor:"#ffffff", useCORS:true, logging:false, windowWidth:794, scrollX:0, scrollY:0, x:0, y:0},
-      jsPDF: {unit:"mm", format:"a4", orientation:"portrait", compress:true},
-      pagebreak: {mode:["css"]}
-    }).from(host.firstElementChild);
-    const name = safeName(`${c.corto} ${c.id} - ${c.cliente.nombre || "cliente"}`) + ".pdf";
-    if (downloads) await downloads.save({filename: name, data: await worker.outputPdf("blob")});
-    else await worker.save(name);
-    toast("PDF guardado");
-  } catch(e){
-    if (e && e.code === "declined") toast("Descarga cancelada");
-    else if (e && e.code === "rate_limited") toast("Ya hay una descarga pendiente; confírmala primero");
-    else { console.error(e); toast("No se pudo generar el PDF. Intenta de nuevo."); }
-  } finally {
-    host.innerHTML = ""; btn.textContent = "Descargar PDF"; btn.disabled = !canDownload() || !docs[current];
-  }
-};
-
-let tt;
-function toast(msg){ const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => { t.hidden = true; }, 3600); }
-
-renderAll();
-(async () => {
-  if (inClaude){
-    try { downloads = await window.claude.use("downloads"); } catch(e){ downloads = null; }
-    if (!downloads) $("dlnote").textContent = "Descarga no disponible aquí: usa el archivo HTML de la tienda";
-  }
-  render();
-})();
+  var esc = function(s){ return String(s || "").replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); };
+  if (window.MARCA_LOGO){ var l = document.getElementById("logo"); l.src = window.MARCA_LOGO; l.hidden = false; }
+  var MM = window.MM || {herramientas: [], base: "./"};
+  document.getElementById("tools").innerHTML = MM.herramientas.map(function(t){
+    return '<a class="tool" href="' + t.ruta + '"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">' + t.icono + '</svg></span><h2>' + esc(t.titulo) + '</h2><p>' + esc(t.desc) + '</p><span class="go">Abrir →</span></a>';
+  }).join("");
+  var M = window.MARCA || {};
+  var tiendas = ["TIENDA PRINCIPAL: JR. AMÉRICO ORÉ 155"].concat((M.direcciones || "").split("\n").filter(Boolean));
+  document.getElementById("foot").innerHTML =
+    '<div><b>Tiendas</b>' + tiendas.map(esc).join("<br>") + '</div>' +
+    '<div><b>Contacto</b>' + (M.telefonos ? "Tel. " + esc(M.telefonos) + "<br>" : "") + (M.whatsapp ? "WhatsApp " + esc(M.whatsapp) : "") + '</div>' +
+    '<div><b>Inversiones Malhuayza E.I.R.L.</b>RUC 20534497351</div>';
 })();
 </script>
-
 </body>
 </html>
