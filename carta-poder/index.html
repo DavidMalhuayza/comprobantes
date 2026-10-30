@@ -12,7 +12,7 @@
 /* Layout: formulario a la izquierda, carta tamaño carta a la derecha; al imprimir solo salen las cartas. */
 :root{
   --bg:#ECEEF1; --panel:#FFFFFF; --fg:#1B1F24; --muted:#5B6570; --line:#D5DAE0;
-  --accent:#B3121E; --accent-fg:#FFFFFF; --stage:#D9DEE3; --soft:#F5F6F8; --warn:#9A5B00; --warn-bg:#FFF4DC;
+  --accent:#D0141C; --accent-fg:#FFFFFF; --stage:#D9DEE3; --soft:#F5F6F8; --warn:#9A5B00; --warn-bg:#FFF4DC;
   --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --f-body:"IBM Plex Sans","Segoe UI",Roboto,Arial,sans-serif;
   --f-letter:"Times New Roman",Tinos,"Liberation Serif",Times,serif;
@@ -91,12 +91,14 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);fon
 }
 </style>
 </head>
-<body>
+<body data-tool="carta-poder">
+<script src="../logo.js"></script>
+<script src="../marca.js"></script>
+<script src="../comun/menu.js"></script>
 <div class="app">
   <aside class="side">
     <div class="brandbar">
       <h1>Carta de poder <span>Placas</span></h1>
-      <a href="../">Comprobantes →</a>
     </div>
 
     <section class="card">
