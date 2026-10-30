@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Carta de Poder Malhuayza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Tinos:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: formulario a la izquierda, carta tamaño carta a la derecha; al imprimir solo salen las cartas. */
+:root{
+  --bg:#ECEEF1; --panel:#FFFFFF; --fg:#1B1F24; --muted:#5B6570; --line:#D5DAE0;
+  --accent:#B3121E; --accent-fg:#FFFFFF; --stage:#D9DEE3; --soft:#F5F6F8; --warn:#9A5B00; --warn-bg:#FFF4DC;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans","Segoe UI",Roboto,Arial,sans-serif;
+  --f-letter:"Times New Roman",Tinos,"Liberation Serif",Times,serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111417; --panel:#191D21; --fg:#E6E9ED; --muted:#99A2AC; --line:#2B3137;
+  --accent:#E2444E; --stage:#0B0D0F; --soft:#20252A; --warn:#F2B451; --warn-bg:#33270F; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.45}
+[hidden]{display:none!important}
+.app{display:grid;grid-template-columns:400px minmax(0,1fr);gap:16px;max-width:1500px;margin:0 auto;padding:16px}
+@media (max-width:900px){.app{grid-template-columns:minmax(0,1fr)}}
+.side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.brandbar{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.brandbar h1{font-family:var(--f-display);font-weight:700;font-size:28px;margin:0;line-height:1}
+.brandbar h1 span{color:var(--accent)}
+.brandbar a{color:var(--muted);font-size:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0}
+.drop{border:2px dashed var(--line);border-radius:10px;padding:14px;text-align:center;cursor:pointer;background:var(--soft)}
+.drop:hover,.drop.over{border-color:var(--accent)}
+.drop strong{display:block;font-size:14.5px}
+.drop p{margin:0;color:var(--muted);font-size:12.5px}
+.ok{font-size:12.5px;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:500;min-width:0}
+.f.full{grid-column:1/-1}
+.f input,.f select{font:inherit;font-size:13.5px;color:var(--fg);background:var(--soft);border:1px solid var(--line);border-radius:7px;padding:8px 9px;width:100%}
+.f input.up{text-transform:uppercase}
+.f input:focus,.f select:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+.f input.miss{border-color:var(--warn);background:var(--warn-bg)}
+.check{display:flex;align-items:center;gap:8px;font-weight:600;cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--accent)}
+.hint{font-size:11.5px;color:var(--muted);margin:0}
+.btn{font:inherit;font-weight:600;font-size:13.5px;border-radius:8px;padding:9px 14px;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--fg)}
+.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn:focus-visible,.drop:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.main{display:flex;flex-direction:column;gap:12px;min-width:0}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.toolbar b{font-family:var(--f-display);font-size:20px}
+.toolbar .sub{display:block;font-size:12px;color:var(--muted)}
+.toolbar .sub.warn{color:var(--warn);font-weight:600}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+.stage{background:var(--stage);border-radius:10px;padding:20px;overflow:hidden}
+.scaler{transform-origin:top left;display:flex;flex-direction:column;gap:20px;width:816px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;background:var(--fg);color:var(--bg);padding:9px 14px;border-radius:8px;font-size:13px;z-index:20}
+
+/* ===== Carta (tamaño carta 612x792 pt; márgenes 50/52/36/71 pt) ===== */
+.page{width:8.5in;height:279mm;background:#fff;color:#000;font-family:var(--f-letter);font-size:12pt;line-height:1.15;
+  padding:50pt 52pt 36pt 71pt;box-shadow:0 2px 14px rgba(0,0,0,.18);overflow:hidden;flex:none}
+.page p{margin:0 0 10pt}
+.page .r{text-align:right}
+.page .j{text-align:justify;line-height:1.5}
+.page b{font-weight:700}
+.page .ph{color:#000;background:#ffe9a8}
+.ap{border-collapse:collapse;width:88%;margin:0 0 22pt 22pt}
+.ap td{border:1px solid #000;padding:5pt 4pt;height:20pt}
+.ap td:first-child{width:22pt}.ap td:last-child{width:26%}
+.firma{display:flex;justify-content:space-between;align-items:flex-start;margin-top:30pt}
+.firma p{margin:0 0 12pt}
+.huella{width:80pt;height:95pt;border:1px solid #000;margin-right:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:3pt;font-size:11pt}
+.pdfhost{position:fixed;left:0;top:0;z-index:-5;pointer-events:none;background:#fff}
+.pdfhost:empty{display:none}
+
+@media print{
+  @page{size:letter;margin:0}
+  body{background:#fff}
+  .side,.toolbar,.toast{display:none!important}
+  .app{display:block;padding:0;max-width:none}
+  .stage{background:none;padding:0;border-radius:0}
+  .scaler{transform:none!important;height:auto!important;margin:0!important;gap:0;width:auto}
+  .page{box-shadow:none;break-after:page}
+  .page:last-child{break-after:auto}
+  .page .ph{background:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brandbar">
+      <h1>Carta de poder <span>Placas</span></h1>
+      <a href="../">Comprobantes →</a>
+    </div>
+
+    <section class="card">
+      <p class="label">1 · Boleta de venta (opcional)</p>
+      <div class="drop" id="drop" tabindex="0" role="button">
+        <strong>Carga el XML de la boleta</strong>
+        <p>Llena solo los datos del vehículo y del cliente</p>
+      </div>
+      <input type="file" id="xml" accept=".xml,text/xml" hidden>
+      <span class="ok" id="xmlok" hidden></span>
+    </section>
+
+    <section class="card">
+      <p class="label">2 · Vehículo</p>
+      <div class="grid2">
+        <label class="f full">Tipo de vehículo<input class="up" id="tipo" list="tipos" placeholder="MOTOCICLETA"></label>
+        <label class="f">Marca<input class="up" id="marca"></label>
+        <label class="f">Modelo<input class="up" id="modelo"></label>
+        <label class="f">Chasis<input class="up" id="chasis"></label>
+        <label class="f">Motor<input class="up" id="motor"></label>
+        <label class="f">Color<input class="up" id="color" placeholder="ROJO"></label>
+        <label class="f">Color actual (si cambió)<input class="up" id="color2"></label>
+      </div>
+      <datalist id="tipos"><option>MOTOCICLETA</option><option>TRIMOTO CARGA</option><option>TRIMOTO PASAJEROS</option><option>SCOOTER</option><option>CUATRIMOTO</option></datalist>
+    </section>
+
+    <section class="card" id="own1"></section>
+    <label class="check card" style="flex-direction:row"><input type="checkbox" id="dos">Hay un segundo propietario (sale una carta para cada uno)</label>
+    <section class="card" id="own2" hidden></section>
+
+    <section class="card">
+      <p class="label">Fecha de la carta</p>
+      <label class="f"><input type="date" id="fecha"></label>
+      <button class="btn" id="limpiar" type="button">Nueva carta (borrar todo)</button>
+    </section>
+  </aside>
+
+  <main class="main">
+    <div class="toolbar">
+      <div><b id="tt">Carta de poder</b><span class="sub" id="ts"></span></div>
+      <div class="btnrow">
+        <button class="btn" id="pdf" type="button">Descargar PDF</button>
+        <button class="btn primary" id="print" type="button">Imprimir</button>
+      </div>
+    </div>
+    <div class="stage" id="stage"><div class="scaler" id="scaler"></div></div>
+  </main>
+</div>
+<div class="pdfhost" id="pdfhost"></div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+(function(){
+"use strict";
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const C = window.CARTA || {};
+
+/* ---------- Formulario de propietarios ---------- */
+function ownerForm(n){
+  return `<p class="label">${n === 1 ? "3 · Propietario" : "Segundo propietario"}</p>
+  <div class="grid2">
+    <label class="f full">Nombres y apellidos (como en el DNI)<input class="up" id="p${n}nombre" placeholder="NOMBRES APELLIDO PATERNO MATERNO"></label>
+    <label class="f">DNI<input id="p${n}dni" inputmode="numeric" maxlength="8" placeholder="8 dígitos"></label>
+    <label class="f">Celular<input id="p${n}cel" inputmode="tel" placeholder="9xx xxx xxx"></label>
+    <label class="f full">Domicilio (dirección – distrito, según DNI)<input class="up" id="p${n}dom" placeholder="JR. LAS DALIAS 360 – HUAMANGA"></label>
+    <label class="f full">Es<select id="p${n}gen"><option value="propietario">propietario (hombre)</option><option value="propietaria">propietaria (mujer)</option></select></label>
+  </div>`;
+}
+$("own1").innerHTML = ownerForm(1);
+$("own2").innerHTML = ownerForm(2);
+const VEH = ["tipo","marca","modelo","chasis","motor","color"];
+const OWN = ["nombre","dni","cel","dom"];
+const LABEL = {tipo:"tipo de vehículo",marca:"marca",modelo:"modelo",chasis:"chasis",motor:"motor",color:"color",nombre:"nombre",dni:"DNI",cel:"celular",dom:"domicilio"};
+
+function todayLima(){
+  const p = new Intl.DateTimeFormat("en-CA",{timeZone:"America/Lima",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+  return p;
+}
+$("fecha").value = todayLima();
+function fechaLarga(v){
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || ""); if (!m) return "";
+  const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  return `${+m[3]} de ${meses[+m[2]-1]} de ${m[1]}`;
+}
+const val = id => ($(id).value || "").trim();
+const up = s => s.toUpperCase();
+function celFmt(s){ const d = s.replace(/\D/g,"").replace(/^51(?=9\d{8}$)/,""); return d.length === 9 ? d.replace(/(\d{3})(\d{3})(\d{3})/,"$1 $2 $3") : s; }
+
+/* ---------- Carta ---------- */
+const ph = (v, w) => v ? esc(v) : `<span class="ph">${"_".repeat(w||14)}</span>`;
+function letterHtml(o, v, fecha){
+  const color = v.color2 ? `COLOR ORIGINAL: ${esc(v.color)}, COLOR ACTUAL: ${esc(v.color2)}` : `COLOR: ${ph(v.color,8)}`;
+  const aps = (C.apoderados || []).map((a,i) => `<tr><td>${i+1}</td><td>${esc(a.nombre)}</td><td>${esc(a.dni)}</td></tr>`).join("");
+  return `<div class="page">
+  <p class="r">${esc(C.ciudad || "Ayacucho")}, ${ph(fecha,16)}.</p>
+  <p>Señores</p>
+  <p><b>${esc(C.destinatario || "")}</b></p>
+  <p>${esc(C.oficina || "")}</p>
+  <p><u>Presente.</u> -</p>
+  <p class="j">Yo, <b>${ph(o.nombre,30)}</b>, identificado(a) con DNI Nº <b>${ph(o.dni,10)}</b>, con domicilio en <b>${ph(o.dom,30)}</b> y Nº de celular ${ph(o.cel,12)}, ${esc(o.gen)} del vehículo <b>${ph(v.tipo,12)} MARCA: ${ph(v.marca,10)}, MODELO: ${ph(v.modelo,10)}, CHASIS: ${ph(v.chasis,18)} MOTOR: ${ph(v.motor,14)}, ${color},</b> tengo a bien dirigirme a ustedes con el objeto de conferir poder específico para que, en mi nombre y representación, las personas que a continuación se mencionan, puedan, indistintamente cualquiera de ellas, apersonarse a sus oficinas con el objeto de recoger la <b>PLACA</b> única nacional de rodaje <b>Nº ............................,</b> asignada al vehículo de mi propiedad antes señalado, así como suscribir la constancia de entrega correspondiente.</p>
+  <p>Los apoderados designados mediante la presente carta son:</p>
+  <table class="ap"><tr><td><b>Nº</b></td><td><b>NOMBRES Y APELLIDOS</b></td><td><b>DNI</b></td></tr>${aps}</table>
+  <p>En consecuencia, agradeciéndoles por la atención prestada, quedo de ustedes.</p>
+  <p>Atentamente,</p>
+  <div class="firma">
+    <div><p>Firma: ____________________________</p><p>Nombres: __________________________</p><p>Apellidos: _________________________</p><p>Doc. de identidad: _________________</p></div>
+    <div class="huella">Huella</div>
+  </div>
+</div>`;
+}
+
+function state(){
+  const v = {}; VEH.forEach(k => v[k] = up(val(k))); v.color2 = up(val("color2"));
+  const owners = [1].concat($("dos").checked ? [2] : []).map(n => ({
+    n, nombre: up(val(`p${n}nombre`)), dni: val(`p${n}dni`).replace(/\D/g,""), cel: celFmt(val(`p${n}cel`)), dom: up(val(`p${n}dom`)), gen: $(`p${n}gen`).value
+  }));
+  return {v, owners, fecha: fechaLarga($("fecha").value)};
+}
+
+function render(){
+  const s = state();
+  $("scaler").innerHTML = s.owners.map(o => letterHtml(o, s.v, s.fecha)).join("");
+  const miss = [];
+  VEH.forEach(k => { const m = !s.v[k]; $(k).classList.toggle("miss", m); if (m) miss.push(LABEL[k]); });
+  s.owners.forEach(o => OWN.forEach(k => {
+    const bad = !o[k] || (k === "dni" && o.dni.length !== 8);
+    $(`p${o.n}${k}`).classList.toggle("miss", bad);
+    if (bad) miss.push(LABEL[k] + (s.owners.length > 1 ? ` (${o.n}º)` : ""));
+  }));
+  $("tt").textContent = s.owners.length > 1 ? "2 cartas de poder" : "Carta de poder";
+  $("ts").textContent = miss.length ? `Falta: ${miss.join(", ")}` : `Lista para imprimir · ${s.fecha}`;
+  $("ts").className = "sub" + (miss.length ? " warn" : "");
+  fit();
+}
+function fit(){
+  const sc = $("scaler"), avail = $("stage").clientWidth - 40;
+  const k = Math.min(1, avail / 816);
+  sc.style.height = ""; sc.style.marginBottom = "";
+  const h = sc.offsetHeight;
+  sc.style.transform = `scale(${k})`;
+  sc.style.height = h + "px";
+  sc.style.marginBottom = (h * (k - 1)) + "px";
+}
+window.addEventListener("resize", fit);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
+document.querySelector(".side").addEventListener("input", render);
+$("dos").addEventListener("change", () => { $("own2").hidden = !$("dos").checked; render(); });
+$("limpiar").onclick = () => {
+  document.querySelectorAll(".side input:not([type=checkbox]):not([type=date])").forEach(i => i.value = "");
+  document.querySelectorAll(".side select").forEach(s => s.selectedIndex = 0);
+  $("dos").checked = false; $("own2").hidden = true; $("fecha").value = todayLima(); $("xmlok").hidden = true; render();
+};
+
+/* ---------- Autollenado desde el XML de la boleta (SUNAT) ---------- */
+const ch = (el, n) => { if (!el) return null; for (const c of el.children) if (c.localName === n) return c; return null; };
+const path = (el, p) => p.split("/").reduce((e, n) => ch(e, n), el);
+const tx = el => el ? el.textContent.replace(/\s+/g," ").trim() : "";
+function decodeXml(buf){
+  const head = new TextDecoder("latin1").decode(new Uint8Array(buf.slice(0,200)));
+  const m = head.match(/encoding=["']([\w-]+)["']/i);
+  try { return new TextDecoder(m ? m[1] : "utf-8").decode(buf); } catch(e){ return new TextDecoder().decode(buf); }
+}
+const KEYS = "MARCA|MODELO|CHASIS|VIN|MOTOR|COLOR ORIGINAL|COLOR ACTUAL|COLOR|DUA|AÑO DE FABRICACIÓN|AÑO MODELO|AÑO|PLACA|SERIE";
+function specs(d){
+  const hits = [...d.matchAll(new RegExp("\\b(" + KEYS + ")\\s*:\\s*", "gi"))];
+  const out = {_tipo: hits.length ? d.slice(0, hits[0].index).trim() : ""};
+  hits.forEach((h,i) => { const k = h[1].toUpperCase(); if (!out[k]) out[k] = d.slice(h.index + h[0].length, i+1 < hits.length ? hits[i+1].index : d.length).trim().replace(/[,;]$/,""); });
+  return out;
+}
+function tipoNorm(t){
+  t = t.toUpperCase();
+  if (/TRIMOTO\s*-?\s*CARGA|MOTOCARGA|MOTOFURGON/.test(t)) return "TRIMOTO CARGA";
+  if (/TRIMOTO\s*-?\s*PASAJ|MOTOTAXI/.test(t)) return "TRIMOTO PASAJEROS";
+  if (/CUATRIMOTO/.test(t)) return "CUATRIMOTO";
+  if (/SCOOTER/.test(t)) return "SCOOTER";
+  if (/MOTOCICLETA|MOTO\b/.test(t)) return "MOTOCICLETA";
+  return t;
+}
+async function loadXml(f){
+  try {
+    const doc = new DOMParser().parseFromString(decodeXml(await f.arrayBuffer()), "application/xml");
+    const root = doc.documentElement;
+    if (doc.getElementsByTagName("parsererror").length || root.localName !== "Invoice") throw 0;
+    const lines = [...root.children].filter(c => c.localName === "InvoiceLine");
+    let sp = null;
+    for (const l of lines){ const s = specs(tx(path(l,"Item/Description"))); if (s.CHASIS || s.MOTOR || s.VIN){ sp = s; break; } }
+    if (sp){
+      $("tipo").value = tipoNorm(sp._tipo);
+      $("marca").value = sp.MARCA || ""; $("modelo").value = sp.MODELO || "";
+      $("chasis").value = sp.CHASIS || sp.VIN || ""; $("motor").value = sp.MOTOR || "";
+      $("color").value = sp["COLOR ORIGINAL"] || sp.COLOR || ""; $("color2").value = sp["COLOR ACTUAL"] || "";
+    }
+    const cp = path(root,"AccountingCustomerParty/Party"), idEl = path(cp,"PartyIdentification/ID");
+    const docNum = tx(idEl), scheme = idEl ? idEl.getAttribute("schemeID") : "";
+    $("p1nombre").value = tx(path(cp,"PartyLegalEntity/RegistrationName"));
+    $("p1dni").value = scheme === "1" ? docNum : (/^10\d{9}$/.test(docNum) ? docNum.slice(2,10) : "");
+    const dir = tx(path(cp,"PartyLegalEntity/RegistrationAddress/AddressLine/Line"));
+    if (dir) $("p1dom").value = dir;
+    const notes = [...root.children].filter(c => c.localName === "Note").map(tx).join(" ");
+    const cel = notes.match(/\b9\d{2}\s?\d{3}\s?\d{3}\b/);
+    if (cel) $("p1cel").value = celFmt(cel[0]);
+    $("xmlok").hidden = false;
+    $("xmlok").textContent = `Datos tomados de ${tx(ch(root,"ID"))}. Revisa el nombre y completa el domicilio según el DNI.` + (sp ? "" : " No encontré chasis ni motor en la boleta.");
+    render();
+  } catch(e){ toast("Ese archivo no es un XML de boleta o factura de SUNAT"); }
+}
+const drop = $("drop");
+drop.onclick = () => $("xml").click();
+drop.onkeydown = e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); $("xml").click(); } };
+$("xml").onchange = e => { if (e.target.files[0]) loadXml(e.target.files[0]); e.target.value = ""; };
+["dragover","dragenter"].forEach(ev => document.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+document.addEventListener("dragleave", e => { if (!e.relatedTarget) drop.classList.remove("over"); });
+document.addEventListener("drop", e => { e.preventDefault(); drop.classList.remove("over"); const f = e.dataTransfer?.files?.[0]; if (f) loadXml(f); });
+
+/* ---------- Imprimir y PDF ---------- */
+$("print").onclick = () => window.print();
+$("pdf").onclick = async () => {
+  const s = state(), btn = $("pdf"), host = $("pdfhost");
+  btn.disabled = true; btn.textContent = "Generando…";
+  try {
+    host.innerHTML = '<div id="pdfdoc" style="width:8.5in;background:#fff">' + s.owners.map(o => letterHtml(o, s.v, s.fecha)).join("").replace(/class="ph"/g, 'class="phx"') + '</div>';
+    host.querySelectorAll(".page").forEach((p, i) => { p.style.boxShadow = "none"; if (i) p.classList.add("brk"); });
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const name = ("Carta Camara Comercio - " + s.owners.map(o => o.nombre || "SIN NOMBRE").join(" y ")).replace(/[\\/:*?"<>|]+/g," ").slice(0,140) + ".pdf";
+    await html2pdf().set({
+      margin: 0, filename: name, image: {type:"jpeg", quality:0.97},
+      html2canvas: {scale:2, backgroundColor:"#ffffff", scrollX:0, scrollY:0, x:0, y:0, windowWidth:816},
+      jsPDF: {unit:"in", format:"letter", orientation:"portrait"},
+      pagebreak: {mode:["css"], before:".brk"}
+    }).from($("pdfdoc")).save();
+    toast("PDF descargado");
+  } catch(e){ console.error(e); toast("No se pudo generar el PDF. Usa Imprimir → Guardar como PDF."); }
+  finally { host.innerHTML = ""; btn.disabled = false; btn.textContent = "Descargar PDF"; }
+};
+
+let tt;
+function toast(m){ const t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => t.hidden = true, 3800); }
+render();
+})();
+</script>
+</body>
+</html>
